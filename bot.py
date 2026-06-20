@@ -5,7 +5,6 @@ import platform
 import shutil
 from datetime import datetime, timezone
 
-from aiohttp import ClientTimeout
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.client.session.aiohttp import AiohttpSession
@@ -25,10 +24,10 @@ def _make_bot() -> Bot:
     props = DefaultBotProperties(parse_mode=ParseMode.HTML)
 
     if LOCAL_API_URL:
+        # is_local=True — bot reads files directly from the shared docker volume
+        # (no HTTP transfer), so the default 30s API timeout is fine.
         session = AiohttpSession(
             api=TelegramAPIServer.from_base(LOCAL_API_URL, is_local=True),
-            # No hard timeout — 1 GB file at local-disk speeds still takes time
-            timeout=ClientTimeout(total=None, connect=10),
         )
         return Bot(token=BOT_TOKEN, session=session, default=props)
 
