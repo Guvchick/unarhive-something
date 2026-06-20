@@ -1,0 +1,14 @@
+services:
+  bot:
+    build: .
+    container_name: unarchive_bot
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./logs:/app/logs      # persistent log files
+      - ./data:/app/data      # persistent stats
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
