@@ -73,7 +73,7 @@ async def handle_image_document(message: Message, bot: Bot) -> None:
     if fsize > MAX_FILE_SIZE:
         await message.reply(
             f"❌ Файл слишком большой: <b>{human_size(fsize)}</b>\n"
-            f"Максимум — 50 МБ."
+            f"Максимум — {human_size(MAX_FILE_SIZE)}."
         )
         return
 
