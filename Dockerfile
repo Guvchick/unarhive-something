@@ -3,11 +3,12 @@ FROM python:3.11-slim
 LABEL maintainer="UnArchive Bot"
 LABEL description="Telegram bot for archive extraction and media conversion"
 
-# System deps: ffmpeg (video) + unrar-free (RAR archives, available in main repo)
-# For full RAR5 support install proprietary 'unrar' from non-free manually.
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# System deps: ffmpeg (video) + unrar (full RAR4/RAR5 support from non-free repo)
+RUN echo "deb http://deb.debian.org/debian bookworm non-free" >> /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
         ffmpeg \
-        unrar-free \
+        unrar \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
